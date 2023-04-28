@@ -15,8 +15,8 @@ def test_create():
         i=str(i)
         patch='create'
         firstname='nnnnn'+i
-        lastname='Test'+i
-        res=requests.get(f"http://127.0.0.1:8888/{patch}?firstname={firstname}&lastname={lastname}")
+        age=i
+        res=requests.get(f"http://127.0.0.1:8888/{patch}?username={firstname}&age={age}")
         print(res.text)
 
 def get_user():
@@ -26,7 +26,7 @@ def get_user():
     print(res.text)
 
 if __name__=="__main__":
-    mode = 4
+    mode = 3
     if mode == 1:
         get()
     elif mode == 2:

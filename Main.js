@@ -1,9 +1,13 @@
 const express = require('express');
-var DataHandler = require('./DataHandler');
+const exphbs = require('express-handlebars');
+var DataHandler = require('./Model/DataHandler');
 var app = express();
 const { Op } = require("sequelize");
 
-var User = DataHandler.User;
+app.engine('handlebars', exphbs.engine());
+app.set('view engine', 'handlebars');
+
+var userModel = DataHandler.User;
 /*
 hello = new Hello()
 hello.setName('aaaa')
@@ -11,12 +15,16 @@ console.log(hello.name)
 hello.sayHello()
 */
 
+var userRouter = require('./Router/User');
+var testRouter = require('./Router/Test')
+app.use('/user', userRouter);
+app.use('/test',testRouter)
 
 //  主页输出 "Hello World"
 app.get('/', function (req, res) {
     console.log("主页 GET 请求");
-    temp = User
-    User.SyncToModle()
+    temp = userModel
+    userModel.syncToModleAlter()
     res.send('Hello GET' + String(temp));
 })
 
@@ -25,14 +33,14 @@ app.get('/create', async function (req, res) {
     var query = req.query
     console.log(query)
 
-    if (query.firstname && query.lastname) {
-        var user = await User.create({ firstname: query.firstname, lastname: query.lastname })
+    if (1) {
+        var user = await userModel.create({username:query.username, age:query.age  })
     }
     else {
         res.status(404).end("Error!")
         return 1
     }
-    res.send(query.firstname)
+    res.send(query.username+user.toJSON())
     console.log(user.toJSON())
     res.end()
 })
@@ -45,18 +53,38 @@ app.get('/getuser', async function (req, res) {
         return 1
     }
     console.log("开始查找", query.word)
-    await User.findAll({      //使用await异步,否则会出错
-        where: { firstname: {[Op.like]:"%c%"} },    //SQL的LIKE通配符,%表示无论前面/后面有什么字符都要匹配
-        attributes: [ 'firstname','id'] //实际查询走firstname,但是为了让返回带上ID,所以这里需要加上ID
+    await userModel.findAll({      //使用await异步,否则会出错
+        where: { username: { [Op.like]: "%"+query.word+"%" } },    //SQL的LIKE通配符,%表示无论前面/后面有什么字符都要匹配
+        attributes: ['username', 'id'] //实际查询走username,但是为了让返回带上ID,所以这里需要加上ID
     }).then((results) => {
         res.end(JSON.stringify(results))
     }).catch((error) => {
         console.error(error);
         res.status(404).end("NO")
     });
-    
+    if (!query.word) {
+        res.status(404).end("word Error !")
+        console.log("参数出错", query.word)
+        return 1
+    }
 })
 
+/*
+app.get('/user/:userId', async function (req, res) {
+    var query = req.query
+    const userId = req.params.userId;
+    console.log("开始查找", query.word)
+    await User.findAll({      //使用await异步,否则会出错
+        where: { id: userId },    //SQL的LIKE通配符,%表示无论前面/后面有什么字符都要匹配
+        attributes: ['firstname', 'id'] //实际查询走firstname,但是为了让返回带上ID,所以这里需要加上ID
+    }).then((results) => {
+            res.render('userinfo', JSON.stringify(results))
+        }).catch((error) => {
+            console.error(error);
+            res.status(404).end("NO")
+        });
+})
+*/
 //  POST 请求
 app.post('/', function (req, res) {
     console.log("主页 POST 请求");
