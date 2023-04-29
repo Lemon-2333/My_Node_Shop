@@ -30,7 +30,7 @@ exports.userSpeace = async function (req, res) {
         attributes: ['username', 'age', 'id', 'email']
     })
         .then((results) => {
-            res.render('../Views/userinfo.hbs', results.toJSON())
+            res.render('../Views/User/userinfo.hbs', results.toJSON())
         })
         .catch((error) => {
             console.error(error);
