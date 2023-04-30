@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 新 Bootstrap5 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+
+    <!--  popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
+
+    <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+    <title>开发者列表(未做用户校验)</title>
+</head>
+
+<body>
+    <div class="container p-5 my-3 border">
+        <h1 class="text-center">开发者列表(未做用户校验)</h1>
+    <div class="container p-5 my-3 border">
+        <h2 class="text-center">数据库操作</h2>
+        <div class="container p-5 my-3 border">
+            <h3 class="text-center">用户数据库</h3>
+            <button onclick="sendRequest('/route1')" type="button" class="btn btn-outline-primary">刷新用户数据库</button>
+        </div>
+        <div id="result"></div>
+    </div>
+    </div>
+
+
+    <script>
+        function sendRequest(route) {
+            fetch(route)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('result').innerHTML = data;
+                });
+        }
+    </script>
+</body>
+
+</html>

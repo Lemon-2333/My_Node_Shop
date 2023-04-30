@@ -17,8 +17,10 @@ hello.sayHello()
 
 var userRouter = require('./Router/User');
 var testRouter = require('./Router/Test')
+var devRouter = require('./Router/Dev')
 app.use('/user', userRouter);
-app.use('/test',testRouter)
+app.use('/test',testRouter);
+app.use('/dev',devRouter);
 
 //  主页输出 "Hello World"
 app.get('/', function (req, res) {
