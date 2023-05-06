@@ -17,25 +17,133 @@
 <body>
     <div class="container p-5 my-3 border">
         <h1 class="text-center">开发者列表(未做用户校验)</h1>
-    <div class="container p-5 my-3 border">
-        <h2 class="text-center">数据库操作</h2>
         <div class="container p-5 my-3 border">
-            <h3 class="text-center">用户数据库</h3>
-            <button onclick="sendRequest('/route1')" type="button" class="btn btn-outline-primary">刷新用户数据库</button>
+            <h2 class="text-center">数据库操作</h2>
+            <div class="container p-5 my-3 border">
+                <h3 class="text-center">用户数据库</h3>
+                <button onclick="sendRequest('/userModelSyncToModleAlter','user')" type="button"
+                    class="btn btn-outline-primary">自动重新创建用户数据库</button>
+                <button onclick="sendRequest('/userModelSyncToModleForce','user')" type="button"
+                    class="btn btn-outline-primary">强制创建用户数据库(包含删除操作)</button>
+                <div class="mb-3">
+                    <label for="" class="form-label">用户名</label>
+                    <input type="text" class="form-control" name="" id="UserName" aria-describedby="helpId"
+                        placeholder="">
+                    <small id="helpId" class="form-text text-muted">请输入要查找的用户名</small>
+                </div>
+                <button onclick="sendUserSearch(document.getElementById('UserName').value,'user')" type="button"
+                    class="btn btn-outline-primary">搜索用户名</button>
+                原始数据输出:
+                <div class="container p-5 my-3 border" id="userResultText"></div>
+                表格数据输出:用于搜索输出
+                <button onclick="HideDiv('userResultTable')" type="button"
+                    class="btn btn-outline-primary">隐藏/显示表格输出</button>
+                <div class="container p-5 my-3 border" id="userResultTable">
+
+                </div>
+
+            </div>
+            <div id="result">
+
+            </div>
         </div>
-        <div id="result"></div>
-    </div>
     </div>
 
 
     <script>
-        function sendRequest(route) {
-            fetch(route)
+        async function sendRequest(route, model) {
+            return await fetch("/dev" + route)
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById('result').innerHTML = data;
+                    document.getElementById(model + 'ResultText').innerHTML = data;
+                    console.log(data)
+                    return data
                 });
         }
+        async function sendUserSearch(name, model) {
+            var data = await sendRequest("/userModelSearchName" + "?word=" + name, model)
+            console.log(data)
+            //var data = data.json()
+            data = JSON.parse(data)
+
+            // 创建表头
+            if (data == undefined || data.length == 0) {
+                console.log(0)
+                return 0
+            }
+            table = '<table border="1" cellpadding="1" cellspacing="1">'
+            for (let i in data[0]) {
+                table = table + `<th scope="col">${i}</th>`
+            }
+            table = table + "</tr></thead>"
+            table = table + "<tbody>"
+            for (let i in data) {
+                table = table + "<tr>"
+                console.log(data[i])
+                for (let key in data[i]) {
+                    table = table + `<td>${data[i][key]}</td>`
+                }
+                table = table + "</tr>"
+            }
+            table = table + "<tbody></table>"
+            document.getElementById(model + "ResultTable").innerHTML = table
+            console.log(table)
+        };
+        function HideDiv(Id){
+            let div=document.getElementById(Id);
+            console.log(div.style.display)
+            if(div.style.display != "none"){
+                div.style.display = "none";
+            }else{
+                div.style.display = "block"
+            }
+        }
+        // 将表格添加到页面中
+
+        /*
+        await sendRequest("/userModelSearchName" + "?word=" + name)
+        .then((result) => {
+            console.log(result)
+            var data = result
+            console.log(data)
+            //var data = data.json()
+            const table = document.createElement('table');
+
+            // 创建表头
+            if (data == undefined || data.length == 0) {
+                console.log(0)
+                return 0
+            }
+            const headers = Object.keys(data[0]);
+            const headerRow = document.createElement('tr');
+            headers.forEach(headerText => {
+                const header = document.createElement('th');
+                const textNode = document.createTextNode(headerText);
+                header.appendChild(textNode);
+                headerRow.appendChild(header);
+            });
+            table.appendChild(headerRow);
+
+            // 添加数据行
+            data.forEach(obj => {
+                const row = document.createElement('tr');
+                headers.forEach(key => {
+                    const cell = document.createElement('td');
+                    const textNode = document.createTextNode(obj[key]);
+                    cell.appendChild(textNode);
+                    row.appendChild(cell);
+                });
+                table.appendChild(row);
+            });
+
+            // 将表格添加到页面中
+            document.body.appendChild(table);
+        })
+        .catch((error) => {
+            console.error(error)
+        })*/
+
+
     </script>
 </body>
 

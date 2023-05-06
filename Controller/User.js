@@ -70,9 +70,4 @@ exports.userSearch = async function (req, res) {
             console.error(error);
             res.status(404).end("NO")
         });
-    if (!query.word) {
-        res.status(404).end("word Error !")
-        console.log("参数出错", query.word)
-        return 1
-    }
 }

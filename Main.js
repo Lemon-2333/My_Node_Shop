@@ -7,7 +7,6 @@ const { Op } = require("sequelize");
 app.engine('handlebars', exphbs.engine());
 app.set('view engine', 'handlebars');
 
-var userModel = DataHandler.User;
 /*
 hello = new Hello()
 hello.setName('aaaa')
@@ -25,9 +24,7 @@ app.use('/dev',devRouter);
 //  主页输出 "Hello World"
 app.get('/', function (req, res) {
     console.log("主页 GET 请求");
-    temp = userModel
-    userModel.syncToModleAlter()
-    res.send('Hello GET' + String(temp));
+    res.send('Hello GET.这是主页.');
 })
 
 app.get('/create', async function (req, res) {
