@@ -27,6 +27,7 @@ app.get('/', function (req, res) {
     res.send('Hello GET.这是主页.');
 })
 
+// 创建用户,为什么没密码?因为连登陆系统都还没写,这里参数这么少存粹是为了测试
 app.get('/create', async function (req, res) {
     console.log("创建数据")
     var query = req.query

@@ -35,11 +35,22 @@
                     class="btn btn-outline-primary">搜索用户名</button>
                 原始数据输出:
                 <div class="container p-5 my-3 border" id="userResultText"></div>
-                表格数据输出:用于搜索输出
+                表格数据输出:用于搜索输出(默认隐藏)
                 <button onclick="HideDiv('userResultTable')" type="button"
                     class="btn btn-outline-primary">隐藏/显示表格输出</button>
-                <div class="container p-5 my-3 border" id="userResultTable">
-
+                <div class="container p-5 my-3 border" id="userResultTable" style="display: none;">
+                </div><br>
+                手动创建用户:
+                <div class="mb-3">
+                    <label for="" class="form-label">用户名</label>
+                    <input type="text" class="form-control form-control-sm" name="" id="" aria-describedby="helpId"
+                        placeholder="">
+                    <small id="helpId" class="form-text text-muted">要创建用户的用户名</small>
+                    <br>
+                    <label for="" class="form-label">年龄</label>
+                    <input type="text" class="form-control form-control-sm" name="" id="" aria-describedby="helpId"
+                        placeholder="">
+                    <small id="helpId" class="form-text text-muted">要创建用户的年龄</small>
                 </div>
 
             </div>
@@ -89,12 +100,12 @@
             document.getElementById(model + "ResultTable").innerHTML = table
             console.log(table)
         };
-        function HideDiv(Id){
-            let div=document.getElementById(Id);
+        function HideDiv(Id) {
+            let div = document.getElementById(Id);
             console.log(div.style.display)
-            if(div.style.display != "none"){
+            if (div.style.display != "none") {
                 div.style.display = "none";
-            }else{
+            } else {
                 div.style.display = "block"
             }
         }

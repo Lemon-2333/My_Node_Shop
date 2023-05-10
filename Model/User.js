@@ -37,6 +37,10 @@ User.init({
         type: DataTypes.STRING,
         defaultValue:"No Name"
     },
+    password:{
+        type:DataTypes.STRING,
+        defaultValue:"12345"
+    },
     age: {                      //用户年龄
         type: DataTypes.INTEGER,
         defaultValue:114514
@@ -54,34 +58,5 @@ User.init({
         defaultValue:"user"
     }
 }, { sequelize });
-
-//// 开始定义模型-user,使用define
-//const UserModle = sequelize.define("user", {
-//    //名字,限制文本
-//    name: DataTypes.TEXT,
-//    favoriteColor: {    // 最爱的颜色,最低,默认为绿色
-//        type: DataTypes.TEXT,
-//        defaultValue: 'green'
-//    },
-//    //年龄,金额,限制整数
-//    age: DataTypes.INTEGER,
-//    cash: DataTypes.INTEGER
-//});
-
-//function DataHandler(){
-//    this.User=class User{
-//        constructor(){
-//        }
-//        get_user_list(){
-//            fs.readdirSync("./Data/",function(err, files){
-//                if (err) {
-//                    return console.error(err);
-//                }
-//                console.log(files)
-//                return files;
-//            });
-//        }
-//    }
-//}
 
 module.exports = User

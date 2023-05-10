@@ -16,7 +16,6 @@ var userModel = DataHandler.User;
  * @param {express.Response} res - 要发送至路由的响应.
  */
 exports.userList = function (req, res) {
-
     res.send('用户列表');
 }
 
@@ -36,15 +35,6 @@ exports.userSpeace = async function (req, res) {
             console.error(error);
             res.status(404).end("NO")
         })
-    //await userModel.findAll({      //使用await异步,否则会出错
-    //    where: { id: userId },    //SQL的LIKE通配符,%表示无论前面/后面有什么字符都要匹配
-    //    attributes: ['username', 'id'] //实际查询走username,但是为了让返回带上ID,所以这里需要加上ID
-    //}).then((results) => {
-    //        res.render('userinfo', JSON.stringify(results))
-    //    }).catch((error) => {
-    //        console.error(error);
-    //        res.status(404).end("NO")
-    //    });
 }
 
 /**
